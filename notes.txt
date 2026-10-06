@@ -1,0 +1,33 @@
+1. what is the difference between <u4 and np.object datatypes?
+    NumPy's string dtype (e.g. `<U4`) stores strings in fixed-length
+    memory slots, which makes reading data fast and simple: since every
+    element has the same size, NumPy can locate element `i` with plain
+    arithmetic (`i * itemsize`) and process the whole array as one 
+    contiguous block, instead of following pointers to scattered Python
+    objects. This speed comes at the cost of memory, and there are two 
+    sources of waste. First, NumPy uses UTF-32 encoding, a fixed 4 bytes 
+    per character, so even `'a'`, which needs only 1 byte in ASCII, takes 
+    4 bytes; a fixed width also lets NumPy jump straight to character `j` 
+    at offset `j * 4`, which a variable-length encoding like UTF-8 would 
+    not allow. Second, every element is padded to the length of the 
+    longest string in the array, so in a `<U4` array the string `'a'` 
+    still occupies 16 bytes (4 characters × 4 bytes), and one very long 
+    string forces every element to be that wide. By contrast, `dtype=object` 
+    stores only pointers to separate Python strings that are each sized to 
+    their own needs (at the cost of per-object overhead and slower vectorized operations),
+    and NumPy 2.0's `StringDType` offers variable-length strings without
+    that per-element Python-object overhead.
+
+2. what is the difference between big-endian and little-endian byte ordering?
+    Big-endian and little-endian are two ways of ordering the bytes of a multi-byte
+    number in memory. Big-endian stores the most significant byte (the "biggest" end)
+    first, so `0x12345678` is stored as `12 34 56 78`, just like we write numbers with
+    the biggest digit first. Little-endian stores the least significant byte first, 
+    so the same number is stored as `78 56 34 12`. Only the order of the bytes is 
+    reversed, not the bits inside each byte. Most modern CPUs (x86 and typical ARM)
+    use little-endian, while big-endian is common in network protocols, and in NumPy
+        `<` means little-endian and `>` means big-endian.
+
+3. what are axis=0 and axis=1 denoting in numpy indexing system? 
+    axis=0 is used to address rows(instances) and axis=1 is used to address features(columns)
+    of data.
