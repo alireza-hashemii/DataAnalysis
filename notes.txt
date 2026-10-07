@@ -97,3 +97,7 @@
     from different rows end up mixed together. Also, arr.sort() works in place, 
     so your original array is changed.If you want to keep rows intact, sort the 
     rows by one column
+
+ -- CHAPTER2 --
+
+15. what is pandas? what are 2 data types of pandas? 
