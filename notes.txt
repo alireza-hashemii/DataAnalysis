@@ -1,24 +1,4 @@
-1. what is the difference between <u4 and np.object datatypes?
-    NumPy's string dtype (e.g. `<U4`) stores strings in fixed-length
-    memory slots, which makes reading data fast and simple: since every
-    element has the same size, NumPy can locate element `i` with plain
-    arithmetic (`i * itemsize`) and process the whole array as one 
-    contiguous block, instead of following pointers to scattered Python
-    objects. This speed comes at the cost of memory, and there are two 
-    sources of waste. First, NumPy uses UTF-32 encoding, a fixed 4 bytes 
-    per character, so even `'a'`, which needs only 1 byte in ASCII, takes 
-    4 bytes; a fixed width also lets NumPy jump straight to character `j` 
-    at offset `j * 4`, which a variable-length encoding like UTF-8 would 
-    not allow. Second, every element is padded to the length of the 
-    longest string in the array, so in a `<U4` array the string `'a'` 
-    still occupies 16 bytes (4 characters × 4 bytes), and one very long 
-    string forces every element to be that wide. By contrast, `dtype=object` 
-    stores only pointers to separate Python strings that are each sized to 
-    their own needs (at the cost of per-object overhead and slower vectorized operations),
-    and NumPy 2.0's `StringDType` offers variable-length strings without
-    that per-element Python-object overhead.
-
-2. what is the difference between big-endian and little-endian byte ordering?
+1. what is the difference between big-endian and little-endian byte ordering?
     Big-endian and little-endian are two ways of ordering the bytes of a multi-byte
     number in memory. Big-endian stores the most significant byte (the "biggest" end)
     first, so `0x12345678` is stored as `12 34 56 78`, just like we write numbers with
@@ -28,6 +8,60 @@
     use little-endian, while big-endian is common in network protocols, and in NumPy
         `<` means little-endian and `>` means big-endian.
 
-3. what are axis=0 and axis=1 denoting in numpy indexing system? 
+
+2. what are axis=0 and axis=1 denoting in numpy indexing system? 
     axis=0 is used to address rows(instances) and axis=1 is used to address features(columns)
     of data.
+
+
+3. what do we mean by 1D/2D array? how the dimension must be interpreted?
+    The dimension of an array is the number of axes (independent directions) 
+    you need to move along to locate a single element. Equivalently, 
+    it's how many indices you must give to pick out one value.
+
+
+4. compare these shapes together : (4,), (1, 4) and (4, 1)?
+    The first one is a 1D array with four elements. 
+    the second one is a row vector, it is a 2D array 
+    with one row and 4 columns, the third one is a 
+    column vector , it is also 2D with 4 columns 
+    and only one row
+
+5. what does the method .T (.transpose()) do? 
+    it flips rows and columns, so shape (m, n) becomes (n, m)
+
+
+6. In numpy how do you perform matrix multipication? 
+    using @ operator
+
+
+7. can we claim that dot product is a special form of matrix multipication? 
+    The dot product of two vectors is what you get when you matrix-multiply 
+    a (1, n) row by an (n, 1) column. The result is a (1, 1) matrix, which 
+    we treat as a plain number.
+    (1, n) @ (n, 1) -> (1, 1)
+
+8. what is the difference between scalar multipication and element-wise multipication?
+    Scalar multiplication multiplies every entry by the same single number. Element-wise
+    multiplication multiplies two arrays position by position, so each entry gets its 
+    own partner.
+
+
+9. what is a matrix? 
+    A matrix is a rectangular grid of numbers arranged in rows and columns
+    > Row vector	(1, n)	
+    > Column vector	(n, 1)	
+    > Matrix	(m, n)
+    > Scalar	single number	5
+
+
+10. how different is logarithm compared to exponentiation? 
+    Exponentiation and logarithms are inverse operations: 
+    one undoes the other. Exponentiation asks "what do I 
+    get if I multiply a base by itself this many times?" 
+    (2³ = 8), while a logarithm asks the reverse: "how 
+    many times must I multiply the base to get this number?"
+    (log₂ 8 = 3). So exponentiation takes the base and 
+    the exponent and gives you the result, while a logarithm
+    takes the base and the result and gives you the exponent.
+    In NumPy, that's 2**3 for the first and np.log2(8) for the second.
