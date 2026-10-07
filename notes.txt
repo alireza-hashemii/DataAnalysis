@@ -65,3 +65,35 @@
     the exponent and gives you the result, while a logarithm
     takes the base and the result and gives you the exponent.
     In NumPy, that's 2**3 for the first and np.log2(8) for the second.
+
+
+11. what is universal function? 
+    A universal function, or ufunc, is a function that performs
+    element-wise operations on data in ndarrays.
+
+
+12. what is normal(gaussian) distribution? 
+    A normal distribution (also called a Gaussian distribution or 
+    "bell curve") is a probability distribution where values cluster 
+    symmetrically around a central average, with fewer and fewer values
+    the farther you move away from it.
+
+    > Bell-shaped and symmetric: the left side mirrors the right side.
+    > Mean = median = mode: all sit at the center, the peak of the curve.
+    > Defined by two numbers: the mean (μ), which sets where the center is,
+    and the standard deviation (σ), which sets how spread out the data is.
+    A small σ gives a tall, narrow bell; a large σ gives a short, wide one.
+    > Tails never touch zero: extreme values are possible, just very rare.
+
+
+13. what is the term vectorization mean? 
+    Vectorization in NumPy means performing operations on entire arrays at
+    once, instead of looping over elements one by one in Python. The loop
+    still happens, but it runs inside NumPy's optimized C code, which is much faster
+
+
+14. what is the risk of writing array.sort(axis=0) and what is he better appproach?
+    sort(axis=0) sorts each column independently, so rows get scrambled and values
+    from different rows end up mixed together. Also, arr.sort() works in place, 
+    so your original array is changed.If you want to keep rows intact, sort the 
+    rows by one column
